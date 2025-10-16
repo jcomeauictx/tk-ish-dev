@@ -87,6 +87,7 @@ GetFont(
     XftFont *result;
     fprintf(stderr, "GetFont(%d, %0.3f) called\n", ucs4, angle);
     if (ucs4) {
+        fprintf(stderr, "looking for font %d in fontPtr->faces\n", ucs4);
 	for (i = 0; i < fontPtr->nfaces; i++) {
 	    FcCharSet *charset = fontPtr->faces[i].charset;
 
@@ -98,10 +99,12 @@ GetFont(
 	    i = 0;
 	}
     } else {
+        fprintf(stderr, "using default font face\n");
 	i = 0;
     }
     if ((angle == 0.0 && !fontPtr->faces[i].ft0Font) || (angle != 0.0 &&
 	    (!fontPtr->faces[i].ftFont || fontPtr->faces[i].angle != angle))){
+        fprintf(stderr, "initializing font\n");
 	FcPattern *pat = FcFontRenderPrepare(0, fontPtr->pattern,
 		fontPtr->faces[i].source);
 	double s = sin(angle*PI/180.0), c = cos(angle*PI/180.0);
@@ -128,7 +131,7 @@ GetFont(
 	     * misconfigured fontconfig installation; see [Bug 1090382]. Try a
 	     * fallback:
 	     */
-
+            fprintf(stderr, "ftFont null after XftFontOpenPattern()\n");
 	    ftFont = XftFontOpen(fontPtr->display, fontPtr->screen,
 		    FC_FAMILY, FcTypeString, "sans",
 		    FC_SIZE, FcTypeDouble, 12.0,
