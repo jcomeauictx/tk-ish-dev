@@ -1,0 +1,5 @@
+libX11.so.6
+libXft.so.2
+libc.musl-x86.so.1
+libfontconfig.so.1
+libtcl8.6.so
