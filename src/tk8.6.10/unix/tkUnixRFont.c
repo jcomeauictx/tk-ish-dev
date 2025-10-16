@@ -84,7 +84,8 @@ GetFont(
     double angle)
 {
     int i;
-
+    XftFont *result;
+    fprintf(stderr, "GetFont(%d, %0.3f) called\n", ucs4, angle);
     if (ucs4) {
 	for (i = 0; i < fontPtr->nfaces; i++) {
 	    FcCharSet *charset = fontPtr->faces[i].charset;
@@ -153,7 +154,9 @@ GetFont(
 	    fontPtr->faces[i].angle = angle;
 	}
     }
-    return (angle==0.0? fontPtr->faces[i].ft0Font : fontPtr->faces[i].ftFont);
+    result = (angle==0.0? fontPtr->faces[i].ft0Font : fontPtr->faces[i].ftFont);
+    fprintf(stderr, "GetFont returning \"%4s\"\n", (char *)&result);
+    return result;
 }
 
 /*
