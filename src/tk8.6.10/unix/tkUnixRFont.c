@@ -65,6 +65,18 @@ static Tcl_ThreadDataKey dataKey;
 #define TCL_CFGVAL_ENCODING "ascii"
 #endif
 
+void dumpraw(const char *header, unsigned char *buffer, size_t bufsize);
+
+void dumpraw(const char *header, unsigned char *buffer, size_t bufsize) {
+    fprintf(stderr, "%s (0x%0*lx): ", header,
+            sizeof(long), (unsigned long)buffer
+    );
+    for (int i = 0; i < bufsize; i++) {
+        fprintf(stderr, "%02x", (unsigned char)buffer[i]);
+    }
+    fprintf(stderr, "\n");
+}
+
 void
 TkpFontPkgInit(
     TkMainInfo *mainPtr)	/* The application being created. */
@@ -284,8 +296,7 @@ InitFont(
 	return NULL;
     }
 
-    fprintf(stderr, "set: 0x%0*lx (\"%*s\")\n",
-            sizeof(long), (long)set, sizeof(FcFontSet), (char *)set);
+    dumpraw("font set", (unsigned char *)set, sizeof(FcFontSet));
     fontPtr->fontset = set;
     fontPtr->pattern = pattern;
     fontPtr->faces = ckalloc(set->nfont * sizeof(UnixFtFace));
