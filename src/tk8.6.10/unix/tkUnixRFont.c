@@ -290,7 +290,7 @@ InitFont(
      */
 
     set = FcFontSort(0, pattern, FcTrue, NULL, &result);
-    if (!set) {
+    if (!set || !set->nfont) {
         fprintf(stderr, "no fonts found, aborting\n");
 	ckfree(fontPtr);
 	return NULL;
