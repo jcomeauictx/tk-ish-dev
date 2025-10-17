@@ -12,4 +12,9 @@ c2c75a9a29fc:/usr/src/jcomeauictx/aports/main/tk/src/tk8.6.10/unix$ echo 'label
 Cannot find a usable font
 Aborted (core dumped)
 ```
-([sample wish code](https://opensource.com/article/23/4/learn-tcltk-wish-simple-game))
+([sample wish code](opensource.com/article/23/4/learn-tcltk-wish-simple-game))
+
+you can also `xtrace` it, but you have to build the
+[package](https://github.com/jcomeauictx/xtrace)
+first on the target system. and I didn't find it to be of any real help
+with the problem.
