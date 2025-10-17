@@ -1,0 +1,84 @@
+#0  0xf789b9d0 in GetTkFontAttributes (ftFont=ftFont@entry=0x796f72, 
+    faPtr=faPtr@entry=0xf70ed6dc)
+    at /usr/src/jcomeauictx/aports/main/tk/src/tk8.6.10/unix/../unix/tkUnixRFont.c:176
+#1  0xf789c312 in InitFont (tkwin=0xffa7fba8, tkwin@entry=0xf713cee8, 
+    pattern=pattern@entry=0xf7969cb0, fontPtr=0xf70ed6b8, fontPtr@entry=0x0)
+    at /usr/src/jcomeauictx/aports/main/tk/src/tk8.6.10/unix/../unix/tkUnixRFont.c:313
+#2  0xf789c518 in TkpGetFontFromAttributes (tkFontPtr=0x0, tkwin=0xf713cee8, 
+    faPtr=0xf6e9eca0)
+    at /usr/src/jcomeauictx/aports/main/tk/src/tk8.6.10/unix/../unix/tkUnixRFont.c:482
+#3  0xf7807177 in Tk_AllocFontFromObj (interp=0xf77d8118, tkwin=0xf713cee8, 
+    objPtr=0xf74b8498)
+    at /usr/src/jcomeauictx/aports/main/tk/src/tk8.6.10/unix/../generic/tkFont.c:1195
+#4  0xf77fee68 in DoObjConfig (interp=interp@entry=0xf77d8118, 
+    recordPtr=recordPtr@entry=0xf7102fa8 "\350\316\023\367 {\255\367\030\201}\367\350\177\022\367", optionPtr=optionPtr@entry=0xf70d3f08, 
+    valuePtr=<optimized out>, tkwin=0xf713cee8, savedOptionPtr=0x0)
+    at /usr/src/jcomeauictx/aports/main/tk/src/tk8.6.10/unix/../generic/tkConfig.c:717
+#5  0xf77ff949 in Tk_InitOptions (interp=0xf77d8118, 
+    recordPtr=0xf7102fa8 "\350\316\023\367 {\255\367\030\201}\367\350\177\022\367", optionTable=0xf70d3dd8, tkwin=0xf713cee8)
+    at /usr/src/jcomeauictx/aports/main/tk/src/tk8.6.10/unix/../generic/tkConfig.c:496
+#6  0xf781eaa1 in ButtonCreate (interp=0xf77d8118, objc=4, objv=0xffa7ff4c, 
+    type=0, clientData=<optimized out>)
+    at /usr/src/jcomeauictx/aports/main/tk/src/tk8.6.10/unix/../generic/tkButton.c:752
+#7  0xf765f0ff in ?? () from /usr/lib/libtcl8.6.so
+#8  0xf7663d17 in TclNRRunCallbacks () from /usr/lib/libtcl8.6.so
+#9  0xf7663d98 in Tcl_EvalObjv () from /usr/lib/libtcl8.6.so
+#10 0xf79ad42c in ?? ()
+   from /usr/lib/python3.9/lib-dynload/_tkinter.cpython-39-i386-linux-musl.so
+#11 0xf7ca0e51 in ?? () from /usr/lib/libpython3.9.so.1.0
+#12 0xf7c9abea in ?? () from /usr/lib/libpython3.9.so.1.0
+#13 0xf7c9ab9d in ?? () from /usr/lib/libpython3.9.so.1.0
+#14 0xf7c9ab4b in ?? () from /usr/lib/libpython3.9.so.1.0
+#15 0xf7c99b15 in _PyEval_EvalFrameDefault ()
+   from /usr/lib/libpython3.9.so.1.0
+#16 0xf7c94676 in ?? () from /usr/lib/libpython3.9.so.1.0
+#17 0xf7c943d5 in ?? () from /usr/lib/libpython3.9.so.1.0
+#18 0xf7c9e4ff in _PyFunction_Vectorcall () from /usr/lib/libpython3.9.so.1.0
+#19 0xf7c9abea in ?? () from /usr/lib/libpython3.9.so.1.0
+--Type <RET> for more, q to quit, c to continue without paging-- 
+#20 0xf7c9ab9d in ?? () from /usr/lib/libpython3.9.so.1.0
+#21 0xf7c9ab4b in ?? () from /usr/lib/libpython3.9.so.1.0
+#22 0xf7c99afc in _PyEval_EvalFrameDefault ()
+   from /usr/lib/libpython3.9.so.1.0
+#23 0xf7c94676 in ?? () from /usr/lib/libpython3.9.so.1.0
+#24 0xf7c943d5 in ?? () from /usr/lib/libpython3.9.so.1.0
+#25 0xf7c9e4ff in _PyFunction_Vectorcall () from /usr/lib/libpython3.9.so.1.0
+#26 0xf7c9b1cb in _PyObject_FastCallDictTstate ()
+   from /usr/lib/libpython3.9.so.1.0
+#27 0xf7ca3383 in _PyObject_Call_Prepend () from /usr/lib/libpython3.9.so.1.0
+#28 0xf7ca31bf in ?? () from /usr/lib/libpython3.9.so.1.0
+#29 0xf7c9b61d in ?? () from /usr/lib/libpython3.9.so.1.0
+#30 0xf7c9b4f9 in _PyObject_MakeTpCall () from /usr/lib/libpython3.9.so.1.0
+#31 0xf7c9abe0 in ?? () from /usr/lib/libpython3.9.so.1.0
+#32 0xf7c9ab9d in ?? () from /usr/lib/libpython3.9.so.1.0
+#33 0xf7c9ab4b in ?? () from /usr/lib/libpython3.9.so.1.0
+#34 0xf7c99bff in _PyEval_EvalFrameDefault ()
+   from /usr/lib/libpython3.9.so.1.0
+#35 0xf7c94676 in ?? () from /usr/lib/libpython3.9.so.1.0
+#36 0xf7c9e58c in ?? () from /usr/lib/libpython3.9.so.1.0
+#37 0xf7c9abea in ?? () from /usr/lib/libpython3.9.so.1.0
+#38 0xf7c9ab9d in ?? () from /usr/lib/libpython3.9.so.1.0
+#39 0xf7c9ab4b in ?? () from /usr/lib/libpython3.9.so.1.0
+#40 0xf7c99b85 in _PyEval_EvalFrameDefault ()
+   from /usr/lib/libpython3.9.so.1.0
+#41 0xf7c94676 in ?? () from /usr/lib/libpython3.9.so.1.0
+#42 0xf7c943d5 in ?? () from /usr/lib/libpython3.9.so.1.0
+#43 0xf7cf0133 in PyEval_EvalCodeEx () from /usr/lib/libpython3.9.so.1.0
+#44 0xf7cf00f3 in PyEval_EvalCode () from /usr/lib/libpython3.9.so.1.0
+#45 0xf7d04620 in ?? () from /usr/lib/libpython3.9.so.1.0
+#46 0xf7cfe71b in ?? () from /usr/lib/libpython3.9.so.1.0
+#47 0xf7c4f7ad in ?? () from /usr/lib/libpython3.9.so.1.0
+#48 0xf7c4f524 in PyRun_SimpleFileExFlags () from /usr/lib/libpython3.9.so.1.0
+#49 0xf7d19803 in Py_RunMain () from /usr/lib/libpython3.9.so.1.0
+#50 0xf7cdeb61 in Py_BytesMain () from /usr/lib/libpython3.9.so.1.0
+#51 0x565e3288 in ?? ()
+#52 0xf7ebdef2 in ?? () from /lib/ld-musl-i386.so.1
+#53 0xffa81dd3 in ?? ()
+#54 0x61762f3d in ?? ()
+#55 0x616d2f72 in ?? ()
+#56 0x692f6c69 in ?? ()
+#57 0x73756873 in ?? ()
+#58 0x55007265 in ?? ()
+#59 0x3d524553 in ?? ()
+#60 0x75687369 in ?? ()
+#61 0x00726573 in ?? ()
