@@ -156,7 +156,7 @@ GetFont(
 	    fontPtr->faces[i].ftFont = ftFont;
 	    fontPtr->faces[i].angle = angle;
 	}
-    }
+    } else fprintf(stderr, "skipped font initialization\n");
     result = (angle==0.0? fontPtr->faces[i].ft0Font : fontPtr->faces[i].ftFont);
     fprintf(stderr, "GetFont returning \"%4s\"\n", (char *)&result);
     return result;
