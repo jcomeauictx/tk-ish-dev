@@ -266,6 +266,7 @@ InitFont(
     int i, iWidth;
 
     if (!fontPtr) {
+        fprintf(stderr, "InitFont() called with no fontPtr, allocating one\n");
 	fontPtr = ckalloc(sizeof(UnixFtFont));
     }
 
@@ -278,14 +279,18 @@ InitFont(
 
     set = FcFontSort(0, pattern, FcTrue, NULL, &result);
     if (!set) {
+        fprintf(stderr, "no fonts found, aborting\n");
 	ckfree(fontPtr);
 	return NULL;
     }
 
+    fprintf(stderr, "set: 0x%0*lx (\"%*s\")\n",
+            sizeof(long), (long)set, sizeof(FcFontSet), (char *)set);
     fontPtr->fontset = set;
     fontPtr->pattern = pattern;
     fontPtr->faces = ckalloc(set->nfont * sizeof(UnixFtFace));
     fontPtr->nfaces = set->nfont;
+    fprintf(stderr, "%d fonts found\n", fontPtr->nfaces);
 
     /*
      * Fill in information about each returned font
