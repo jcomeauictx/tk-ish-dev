@@ -1,6 +1,7 @@
 DEBUG ?= 1
-export DEBUG
 all:
 	$(MAKE) -C src/tk8.6.10/unix
 abuild:
-	$@ -K
+	DEBUG=$(DEBUG) $@ -K
+push:
+	$(foreach remote, $(shell git remote), git push $(remote);)
