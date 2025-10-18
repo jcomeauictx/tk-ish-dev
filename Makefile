@@ -14,4 +14,6 @@ $(HOME)/.abuild:
 /usr/lib/%.so: src/tk8.6.10/unix/%.so
 	if [ ! -f $@.orig ]; then sudo cp $@ $@.orig; fi
 	sudo cp -i $< $@
-.PHONY: all push tktest
+edit:
+	vi src/tk8.6.10/unix/tkUnixRFont.c
+.PHONY: all push tktest edit
