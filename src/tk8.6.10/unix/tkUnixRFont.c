@@ -68,9 +68,7 @@ static Tcl_ThreadDataKey dataKey;
 void dumpraw(const char *header, unsigned char *buffer, size_t bufsize);
 
 void dumpraw(const char *header, unsigned char *buffer, size_t bufsize) {
-    fprintf(stderr, "%s (0x%0*lx): ", header,
-            sizeof(long), (unsigned long)buffer
-    );
+    fprintf(stderr, "%s (0x%p): ", header, buffer);
     for (int i = 0; i < bufsize; i++) {
         fprintf(stderr, "%02x", (unsigned char)buffer[i]);
     }
@@ -170,7 +168,8 @@ GetFont(
 	}
     } else fprintf(stderr, "skipped font initialization\n");
     result = (angle==0.0? fontPtr->faces[i].ft0Font : fontPtr->faces[i].ftFont);
-    fprintf(stderr, "GetFont returning \"%4s\"\n", (char *)&result);
+    dumpraw("fontPtr", (unsigned char *)fontPtr, sizeof(UnixFtFont));
+    fprintf(stderr, "GetFont returning 0x%p\n", (char *)&result);
     return result;
 }
 
@@ -290,7 +289,7 @@ InitFont(
      */
 
     set = FcFontSort(0, pattern, FcTrue, NULL, &result);
-    if (!set || !set->nfont) {
+    if (!set /*|| !set->nfont*/) {  // FIXME: put this back to avoid segfault
         fprintf(stderr, "no fonts found, aborting\n");
 	ckfree(fontPtr);
 	return NULL;
@@ -436,9 +435,10 @@ TkpGetNativeFont(
 
     fontPtr = InitFont(tkwin, pattern, NULL);
     if (!fontPtr) {
+        fprintf(stderr, "failed InitFont()\n");
 	FcPatternDestroy(pattern);
 	return NULL;
-    }
+    } else dumpraw("fontPtr", (unsigned char *)fontPtr, sizeof(UnixFtFont));
     return &fontPtr->font;
 }
 
@@ -510,9 +510,11 @@ TkpGetFontFromAttributes(
      */
 
     if (!fontPtr) {
+        fprintf(stderr, "failed InitFont(), retrying\n");
 	XftPatternAddBool(pattern, XFT_RENDER, FcFalse);
 	fontPtr = InitFont(tkwin, pattern, fontPtr);
     }
+    dumpraw("fontPtr", (unsigned char *)fontPtr, sizeof(UnixFtFont));
 
     if (!fontPtr) {
 	FcPatternDestroy(pattern);
