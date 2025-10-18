@@ -2,3 +2,14 @@ core.*
 *.o
 *.so
 *.a
+pkg/tk/usr/bin/wish8.6
+pkg/tk/usr/include/
+pkg/tk/usr/lib/pkgconfig/
+pkg/tk/usr/lib/tk8.6/tkAppInit.c
+pkg/tk/usr/lib/tkConfig.sh
+pkg/tk/usr/share/
+src/tk8.6.10/unix/Makefile
+src/tk8.6.10/unix/config.log
+src/tk8.6.10/unix/config.status
+src/tk8.6.10/unix/tkConfig.sh
+src/tk8.6.10/unix/wish
