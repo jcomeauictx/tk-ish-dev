@@ -7,8 +7,7 @@ this repo is for tracking down the bug and fixing it.
 
 steps to reproduce on Alpine 3.14.3:
 ```
-c2c75a9a29fc:/usr/src/jcomeauictx/aports/main/tk/src/tk8.6.10/unix$ echo 'label 
-.dash -text "-"' | wish
+c2c75a9a29fc:~$ echo 'label .dash -text "-"' | wish
 Cannot find a usable font
 Aborted (core dumped)
 ```
