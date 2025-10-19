@@ -1108,6 +1108,7 @@ Tk_AllocFontFromObj(
     int isNew, descent;
     NamedFont *nfPtr;
 
+    dumpraw("Tk_AllocFontFromObj called with obj", objPtr, sizeof(Tcl_Obj));
     if (objPtr->typePtr != &tkFontObjType
 	    || objPtr->internalRep.twoPtrValue.ptr2 != fiPtr) {
 	SetFontFromAny(interp, objPtr);
