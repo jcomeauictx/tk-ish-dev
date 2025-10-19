@@ -170,7 +170,8 @@ GetFont(
 	}
     } else fprintf(stderr, "skipped font initialization\n");
     result = (angle==0.0? fontPtr->faces[i].ft0Font : fontPtr->faces[i].ftFont);
-    dumpraw("fontPtr", (unsigned char *)fontPtr, sizeof(UnixFtFont));
+    dumpraw("fontPtr from GetFont",
+	    (unsigned char *)fontPtr, sizeof(UnixFtFont));
     fprintf(stderr, "GetFont returning 0x%p\n", (char *)&result);
     return result;
 }
@@ -297,7 +298,7 @@ InitFont(
 	return NULL;
     }
 
-    dumpraw("font set", (unsigned char *)set, sizeof(FcFontSet));
+    dumpraw("font set from InitFont", (unsigned char *)set, sizeof(FcFontSet));
     fontPtr->fontset = set;
     fontPtr->pattern = pattern;
     fontPtr->faces = ckalloc(set->nfont * sizeof(UnixFtFace));
@@ -440,7 +441,8 @@ TkpGetNativeFont(
         fprintf(stderr, "failed InitFont()\n");
 	FcPatternDestroy(pattern);
 	return NULL;
-    } else dumpraw("fontPtr", (unsigned char *)fontPtr, sizeof(UnixFtFont));
+    } else dumpraw("fontPtr from TkpGetNativeFont",
+ 		   (unsigned char *)fontPtr, sizeof(UnixFtFont));
     return &fontPtr->font;
 }
 
@@ -516,7 +518,8 @@ TkpGetFontFromAttributes(
 	XftPatternAddBool(pattern, XFT_RENDER, FcFalse);
 	fontPtr = InitFont(tkwin, pattern, fontPtr);
     }
-    dumpraw("fontPtr", (unsigned char *)fontPtr, sizeof(UnixFtFont));
+    dumpraw("fontPtr from TkpGetFontFromAttributes after InitFont()",
+ 	    (unsigned char *)fontPtr, sizeof(UnixFtFont));
 
     if (!fontPtr) {
 	FcPatternDestroy(pattern);
@@ -1283,3 +1286,4 @@ TkUnixSetXftClipRegion(
  * fill-column: 78
  * End:
  */
+//vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
