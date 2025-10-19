@@ -172,6 +172,11 @@ GetFont(
     result = (angle==0.0? fontPtr->faces[i].ft0Font : fontPtr->faces[i].ftFont);
     dumpraw("fontPtr from GetFont",
 	    (unsigned char *)fontPtr, sizeof(UnixFtFont));
+    dumpraw("fontPtr->faces from GetFont",
+            (unsigned char *)fontPtr->faces,
+            fontPtr->nfaces * sizeof(UnixFtFace));
+    dumpraw("fontPtr->faces[i] from GetFont",
+            (unsigned char *)&fontPtr->faces[i], sizeof(UnixFtFace));
     fprintf(stderr, "GetFont returning 0x%p\n", (char *)&result);
     return result;
 }
