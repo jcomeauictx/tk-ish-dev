@@ -11,5 +11,5 @@ URL: https://www.tcl-lang.org/
 Version: 8.6.10
 Requires: tcl >= 8.6
 Libs: -L${libdir} -ltk8.6 -ltkstub8.6
-Libs.private: -lXft -lfontconfig -lfreetype  -lfontconfig -lX11
+Libs.private: -lXft -lfontconfig -lfreetype  -lfontconfig -lX11 -lXss -lXext
 Cflags: -I${includedir}

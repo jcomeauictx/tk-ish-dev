@@ -16,6 +16,7 @@
 #if defined(MAC_OSX_TK)
 #include "tkMacOSXInt.h"
 #endif
+#include "dumpraw.h"  // for debugging, by jc@unternet.net
 /*
  * The following structure is used to keep track of all the fonts that exist
  * in the current application. It must be stored in the TkMainInfo for the
@@ -1108,7 +1109,8 @@ Tk_AllocFontFromObj(
     int isNew, descent;
     NamedFont *nfPtr;
 
-    dumpraw("Tk_AllocFontFromObj called with obj", objPtr, sizeof(Tcl_Obj));
+    dumpraw("Tk_AllocFontFromObj called with obj",
+            (unsigned char *)objPtr, sizeof(Tcl_Obj));
     if (objPtr->typePtr != &tkFontObjType
 	    || objPtr->internalRep.twoPtrValue.ptr2 != fiPtr) {
 	SetFontFromAny(interp, objPtr);
