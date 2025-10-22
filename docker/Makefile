@@ -50,13 +50,13 @@ bind-run: | $(MOUNTPOINT)/$(TAG)
 	# -D means run sshd in foreground
 	# docker run [OPTIONS] IMAGE [COMMAND] [ARG]
 ssh login: | $(MOUNTPOINT)/$(TAG)
-	ssh $(VERBOSE) -p $(SSHPORT) -Y \
+	ssh $(VERBOSE) -p $(SSHPORT) -t -Y \
 	 -oStrictHostKeyChecking=no \
 	 -oUserKnownHostsFile=/dev/null \
 	 -oKexAlgorithms=+diffie-hellman-group1-sha1 \
 	 -oHostKeyAlgorithms=+ssh-rsa \
 	 -oPubKeyAcceptedKeyTypes=+ssh-rsa \
-	 $(IUSER)@localhost
+	 $(IUSER)@localhost "cd $(PWD)/.. && /bin/bash --login"
 env:
 ifeq ($(SHOWENV),)
 	$(MAKE) SHOWENV=1 $@
