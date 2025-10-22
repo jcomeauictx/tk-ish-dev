@@ -6,9 +6,9 @@ WISH ?= $(word 1, $(shell which wish false))
 SRCDIR := src/tk8.6.10/unix/
 FILES := $(SRCDIR)/../generic/tkFont.c $(SRCDIR)/tkUnixRFont.c
 all: tktest
-src/tk8.6.10/unix/libtk8.6.so: src/tk8.6.10/unix
-	$(MAKE) -C $<
-src/tk8.6.10/unix: | $(HOME)/.abuild
+src/tk8.6.10/unix/libtk8.6.so: src/tk8.6.10/unix/Makefile
+	$(MAKE) -C $(<D)
+src/tk8.6.10/unix/Makefile: | $(HOME)/.abuild
 	DEBUG=$(DEBUG) abuild -r -K
 push:
 	$(foreach remote, $(shell git remote), git push $(remote);)
