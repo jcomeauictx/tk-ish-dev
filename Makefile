@@ -1,4 +1,4 @@
-ABUILD ?= $(word 1, $(shell which abuild false))
+ABUILD ?= $(word 1, $(shell which abuild))
 DEBUG ?= 1
 GDB ?= gdb --args
 XTRACE ?= ../xtrace/xtrace -D 127.0.0.1:9
@@ -8,13 +8,17 @@ FILES := $(SRCDIR)/../generic/tkFont.c $(SRCDIR)/tkUnixRFont.c
 all: tktest
 src/tk8.6.10/unix/libtk8.6.so: src/tk8.6.10/unix
 	$(MAKE) -C $<
-src/tk8.6.10/unix: $(HOME)/.abuild
+src/tk8.6.10/unix: | $(HOME)/.abuild
 	DEBUG=$(DEBUG) abuild -r -K
 push:
 	$(foreach remote, $(shell git remote), git push $(remote);)
-tktest: /usr/lib/libtk8.6.so
+tktest: | /usr/lib/libtk8.6.so
 	$(GDB) $(WISH) ./segfault.wish
 $(HOME)/.abuild:
+	@if [ -z "$(ABUILD)" ]; then \
+	 echo 'No abuild program present, is this an Alpine system?' >&2; \
+	 exit 1; \
+	fi
 	abuild-keygen -an
 /usr/lib/%.so: src/tk8.6.10/unix/%.so
 	if [ ! -f $@.orig ]; then sudo cp $@ $@.orig; fi
