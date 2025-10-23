@@ -25,4 +25,6 @@ $(HOME)/.abuild:
 	sudo cp -i $< $@
 edit:
 	vi $(FILES)
+ssh:
+	$(MAKE) -C docker $@
 .PHONY: all push tktest edit
