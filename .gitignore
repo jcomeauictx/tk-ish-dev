@@ -13,3 +13,4 @@ src/tk8.6.10/unix/config.log
 src/tk8.6.10/unix/config.status
 src/tk8.6.10/unix/tkConfig.sh
 src/tk8.6.10/unix/wish
+src/tk8.6.10/unix/tk.pc
