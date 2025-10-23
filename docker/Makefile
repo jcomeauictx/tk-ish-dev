@@ -56,7 +56,7 @@ ssh login: | $(MOUNTPOINT)/$(TAG)
 	 -oKexAlgorithms=+diffie-hellman-group1-sha1 \
 	 -oHostKeyAlgorithms=+ssh-rsa \
 	 -oPubKeyAcceptedKeyTypes=+ssh-rsa \
-	 $(IUSER)@localhost "cd $(PWD)/.. && /bin/bash --login"
+	 $(IUSER)@localhost
 env:
 ifeq ($(SHOWENV),)
 	$(MAKE) SHOWENV=1 $@
