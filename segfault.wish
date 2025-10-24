@@ -1,2 +1,3 @@
 #!/usr/bin/wish
-label .dash -text "-"
+label .oops -text "this segfaults on iSH"
+after 5000 exit
