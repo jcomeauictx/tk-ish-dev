@@ -8,7 +8,9 @@ IUSER := ishuser
 IHOME := /home/$(IUSER)
 IMAGE := alpine-ish-dev
 TAG := $(IMAGE)\:latest
-MOUNTPOINT := $(HOME)/mnt/docker-images
+MOUNTPREFIX := $(HOME)/mnt/docker
+CONTAINERS := $(MOUNTPREFIX)-containers
+IMAGES := $(MOUNTPREFIX)-images
 PYTHON ?= $(word 1, $(shell which python3 python false))
 PYLINT ?= $(word 1, $(shell which pylint3 pylint true))
 DRYRUN ?= --dry-run
@@ -20,8 +22,8 @@ export IUSER
 else
 export
 endif
-default: bind-run
-$(MOUNTPOINT)/$(TAG): Dockerfile | $(MOUNTPOINT)/README
+default: login
+$(IMAGES)/$(TAG): Dockerfile | $(IMAGES)/README
 	-docker stop $(IMAGE)
 	-docker rm $(IMAGE)
 	-docker rmi $(TAG)
@@ -30,14 +32,10 @@ $(MOUNTPOINT)/$(TAG): Dockerfile | $(MOUNTPOINT)/README
 	 --platform linux/i386 \
 	 --build-arg IUSER=$(IUSER) \
 	 --tag $(TAG) .
-$(MOUNTPOINT)/README: ../../dockerfs/dockerfs.py $(MOUNTPOINT)
+$(IMAGES)/README: ../../dockerfs/dockerfs.py $(IMAGES)
 	$(MAKE) $(<:.py=.pylint)
-	$(PYTHON) $+
-$(MOUNTPOINT): | $(HOME)
-	mkdir -p $@
-%.pylint: %.py
-	$(PYLINT) $<
-bind-run: | $(MOUNTPOINT)/$(TAG)
+	$(PYTHON) $< $(MOUNTPREFIX)
+$(CONTAINERS)/$(IMAGE): $(CONTAINERS)/README
 	docker run \
 	 --name $(IMAGE) \
 	 --detach \
@@ -49,7 +47,14 @@ bind-run: | $(MOUNTPOINT)/$(TAG)
 	 --entrypoint /usr/sbin/sshd $(TAG) -D -E /var/log/sshd.log
 	# -D means run sshd in foreground
 	# docker run [OPTIONS] IMAGE [COMMAND] [ARG]
-ssh login: | $(MOUNTPOINT)/$(TAG)
+$(CONTAINERS)/README: ../../dockerfs/dockerfs.py $(CONTAINERS)
+	$(MAKE) $(<:.py=.pylint)
+	$(PYTHON) $< $(MOUNTPREFIX)
+$(IMAGES) $(CONTAINERS): | $(HOME)
+	mkdir -p $@
+%.pylint: %.py
+	$(PYLINT) $<
+ssh login: | $(CONTAINERS)/$(IMAGE)
 	ssh $(VERBOSE) -p $(SSHPORT) -t -Y \
 	 -oStrictHostKeyChecking=no \
 	 -oUserKnownHostsFile=/dev/null \
@@ -63,8 +68,6 @@ ifeq ($(SHOWENV),)
 else
 	$@
 endif
-umount:
-	fusermount -u $(MOUNTPOINT)
 backup download:
 	cd ../../.. && $(MAKE) $@
 rerun:
