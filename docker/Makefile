@@ -17,8 +17,15 @@ DRYRUN ?= --dry-run
 VERBOSE ?=  # -vvv or left blank
 SRC=rentacoder
 GFG := .gitconfig
+# conditional in case we merge with parent directory
+rstrip = $(shell echo $1 | sed -e 's%/$$%%')
+ifeq ($(notdir $(PWD)),docker)
+PROJECTDIR := $(call rstrip, $(dir $(PWD)))
+else
+PROJECTDIR := $(PWD)
+endif
 ifeq ($(SHOWENV),)
-export IUSER
+export IUSER PROJECTDIR
 else
 export
 endif
@@ -54,7 +61,7 @@ $(IMAGES) $(CONTAINERS): | $(HOME)
 	mkdir -p $@
 %.pylint: %.py
 	$(PYLINT) $<
-ssh login: | $(CONTAINERS)/$(IMAGE)
+ssh login: $(CONTAINERS)/$(IMAGE)
 	ssh $(VERBOSE) -p $(SSHPORT) -t -Y \
 	 -oStrictHostKeyChecking=no \
 	 -oUserKnownHostsFile=/dev/null \

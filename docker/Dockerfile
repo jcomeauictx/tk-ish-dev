@@ -9,7 +9,7 @@ RUN mkdir -p /run/openrc && \
  shadow bash
 ENV CONFIG=/etc/ssh/sshd_config
 ARG IUSER  # passed in with `--build-arg INAME=$(INAME)` in Makefile
-ARG USERPUB  # ditto
+ARG PROJECTDIR  # ditto
 RUN mv $CONFIG $CONFIG.orig && \
  sed -e 's/.*Port 22$/Port 3022/' \
   -e 's/^X11Forwarding no$/X11Forwarding yes/' \
@@ -27,6 +27,7 @@ RUN adduser -D -s /bin/ash -g "" $IUSER && \
 RUN usermod -p '*' $IUSER
 #RUN echo $IUSER:'*' | chpasswd -e  # -e means "already encrypted"
 RUN mkdir -m 700 -p /home/$IUSER/.ssh
+RUN echo cd $PROJECTDIR >> /home/$IUSER/.profile
 RUN chown -R $IUSER:$IUSER /home/$IUSER
 # allow $IUSER to run abuild -r
 RUN usermod -a -G abuild $IUSER
