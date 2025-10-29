@@ -35,7 +35,7 @@ $(IMAGES)/$(TAG): Dockerfile | $(IMAGES)/README
 $(IMAGES)/README: ../../dockerfs/dockerfs.py $(IMAGES)
 	$(MAKE) $(<:.py=.pylint)
 	$(PYTHON) $< $(MOUNTPREFIX)
-$(CONTAINERS)/$(IMAGE): $(CONTAINERS)/README
+$(CONTAINERS)/$(IMAGE): | $(CONTAINERS)/README
 	docker run \
 	 --name $(IMAGE) \
 	 --detach \
