@@ -14,11 +14,10 @@ push:
 	$(foreach remote, $(shell git remote), git push $(remote);)
 tktest: | /usr/lib/libtk8.6.so
 	$(GDB) $(WISH) ./segfault.wish
-$(HOME)/.abuild:
-	@if [ -z "$(ABUILD)" ]; then \
-	 echo 'No abuild program present, is this an Alpine system?' >&2; \
-	 exit 1; \
-	fi
+/etc/alpine-release:
+	@echo 'Must build on an Alpine system' >&2
+	false
+$(HOME)/.abuild: | /etc/alpine-release
 	abuild-keygen -an
 /usr/lib/%.so: src/tk8.6.10/unix/%.so
 	if [ ! -f $@.orig ]; then sudo cp $@ $@.orig; fi
