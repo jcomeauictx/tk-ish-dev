@@ -38,6 +38,7 @@ $(IMAGES)/$(TAG): Dockerfile | $(IMAGES)/README
 	 --no-cache \
 	 --platform linux/i386 \
 	 --build-arg IUSER=$(IUSER) \
+	 --build-arg PROJECTDIR=$(PROJECTDIR) \
 	 --tag $(TAG) .
 $(IMAGES)/README: ../../dockerfs/dockerfs.py $(IMAGES)
 	$(MAKE) $(<:.py=.pylint)
