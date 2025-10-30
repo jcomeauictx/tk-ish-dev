@@ -13,7 +13,6 @@
 #include "tkFont.h"
 #include <X11/Xft/Xft.h>
 #include <ctype.h>
-#include "dumpraw.h"  // for debugging, by jc@unternet.net
 
 #define MAX_CACHED_COLORS 16
 
@@ -85,10 +84,8 @@ GetFont(
     double angle)
 {
     int i;
-    XftFont *result;
-    fprintf(stderr, "GetFont(%d, %0.3f) called\n", ucs4, angle);
+
     if (ucs4) {
-        fprintf(stderr, "looking for font %d in fontPtr->faces\n", ucs4);
 	for (i = 0; i < fontPtr->nfaces; i++) {
 	    FcCharSet *charset = fontPtr->faces[i].charset;
 
@@ -100,12 +97,10 @@ GetFont(
 	    i = 0;
 	}
     } else {
-        fprintf(stderr, "using default font face\n");
 	i = 0;
     }
     if ((angle == 0.0 && !fontPtr->faces[i].ft0Font) || (angle != 0.0 &&
 	    (!fontPtr->faces[i].ftFont || fontPtr->faces[i].angle != angle))){
-        fprintf(stderr, "initializing font\n");
 	FcPattern *pat = FcFontRenderPrepare(0, fontPtr->pattern,
 		fontPtr->faces[i].source);
 	double s = sin(angle*PI/180.0), c = cos(angle*PI/180.0);
@@ -132,7 +127,7 @@ GetFont(
 	     * misconfigured fontconfig installation; see [Bug 1090382]. Try a
 	     * fallback:
 	     */
-            fprintf(stderr, "ftFont null after XftFontOpenPattern()\n");
+
 	    ftFont = XftFontOpen(fontPtr->display, fontPtr->screen,
 		    FC_FAMILY, FcTypeString, "sans",
 		    FC_SIZE, FcTypeDouble, 12.0,
@@ -157,17 +152,8 @@ GetFont(
 	    fontPtr->faces[i].ftFont = ftFont;
 	    fontPtr->faces[i].angle = angle;
 	}
-    } else fprintf(stderr, "skipped font initialization\n");
-    result = (angle==0.0? fontPtr->faces[i].ft0Font : fontPtr->faces[i].ftFont);
-    dumpraw("fontPtr from GetFont",
-	    (unsigned char *)fontPtr, sizeof(UnixFtFont));
-    dumpraw("fontPtr->faces from GetFont",
-            (unsigned char *)fontPtr->faces,
-            fontPtr->nfaces * sizeof(UnixFtFace));
-    dumpraw("fontPtr->faces[i] from GetFont",
-            (unsigned char *)&fontPtr->faces[i], sizeof(UnixFtFace));
-    fprintf(stderr, "GetFont returning 0x%p\n", (char *)&result);
-    return result;
+    }
+    return (angle==0.0? fontPtr->faces[i].ft0Font : fontPtr->faces[i].ftFont);
 }
 
 /*
@@ -274,7 +260,6 @@ InitFont(
     int i, iWidth;
 
     if (!fontPtr) {
-        fprintf(stderr, "InitFont() called with no fontPtr, allocating one\n");
 	fontPtr = ckalloc(sizeof(UnixFtFont));
     }
 
@@ -286,18 +271,17 @@ InitFont(
      */
 
     set = FcFontSort(0, pattern, FcTrue, NULL, &result);
-    if (!set /*|| !set->nfont*/) {  // FIXME: put this back to avoid segfault
-        fprintf(stderr, "no fonts found, aborting\n");
-	ckfree(fontPtr);
-	return NULL;
+    if (!set || !set->nfont) {
+        Tcl_Panic("no fonts found, aborting");
+        //fprintf(stderr, "no fonts found, aborting\n");
+	//ckfree(fontPtr);
+	//return NULL;
     }
 
-    dumpraw("font set from InitFont", (unsigned char *)set, sizeof(FcFontSet));
     fontPtr->fontset = set;
     fontPtr->pattern = pattern;
     fontPtr->faces = ckalloc(set->nfont * sizeof(UnixFtFace));
     fontPtr->nfaces = set->nfont;
-    fprintf(stderr, "%d fonts found\n", fontPtr->nfaces);
 
     /*
      * Fill in information about each returned font
@@ -432,11 +416,9 @@ TkpGetNativeFont(
 
     fontPtr = InitFont(tkwin, pattern, NULL);
     if (!fontPtr) {
-        fprintf(stderr, "failed InitFont()\n");
 	FcPatternDestroy(pattern);
 	return NULL;
-    } else dumpraw("fontPtr from TkpGetNativeFont",
- 		   (unsigned char *)fontPtr, sizeof(UnixFtFont));
+    }
     return &fontPtr->font;
 }
 
@@ -508,12 +490,9 @@ TkpGetFontFromAttributes(
      */
 
     if (!fontPtr) {
-        fprintf(stderr, "failed InitFont(), retrying\n");
 	XftPatternAddBool(pattern, XFT_RENDER, FcFalse);
 	fontPtr = InitFont(tkwin, pattern, fontPtr);
     }
-    dumpraw("fontPtr from TkpGetFontFromAttributes after InitFont()",
- 	    (unsigned char *)fontPtr, sizeof(UnixFtFont));
 
     if (!fontPtr) {
 	FcPatternDestroy(pattern);
@@ -1280,4 +1259,3 @@ TkUnixSetXftClipRegion(
  * fill-column: 78
  * End:
  */
-//vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
