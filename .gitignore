@@ -2,6 +2,8 @@ core.*
 *.o
 *.so
 *.a
+*.gz
+.PKGINFO
 pkg/tk/usr/bin/wish8.6
 pkg/tk/usr/include/
 pkg/tk/usr/lib/pkgconfig/
