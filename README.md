@@ -17,3 +17,10 @@ you can also `xtrace` it, but you have to build the
 [package](https://github.com/jcomeauictx/xtrace)
 first on the target system. and I didn't find it to be of any real help
 with the problem.
+
+# solution
+
+the problem was, no fonts are installed by default, and the python3-tkinter
+package doesn't have any as a prerequisite. so you must install one or more.
+I used `apk add unifont` and, sure enough, running `python3 -m tkinter` worked
+immediately.
