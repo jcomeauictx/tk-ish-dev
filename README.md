@@ -32,5 +32,5 @@ found the latest version of tkUnixRFont.c has a check for
 `if (!set || set->nfont == 0)`, so there's no need for me to submit a patch.
 I'm not sure that will work as well as my `Tcl_Panic` call at getting across
 to the user the need to install a font&mdash;it may just silently refuse to
-add the Label, Button, or whatever&mdash; but I'll consider it out of my
+add the Label, Button, or whatever&mdash;but I'll consider it out of my
 hands now.
