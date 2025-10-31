@@ -18,9 +18,19 @@ you can also `xtrace` it, but you have to build the
 first on the target system. and I didn't find it to be of any real help
 with the problem.
 
-# solution
+## solution
 
 the problem was, no fonts are installed by default, and the python3-tkinter
 package doesn't have any as a prerequisite. so you must install one or more.
 I used `apk add unifont` and, sure enough, running `python3 -m tkinter` worked
 immediately.
+
+## followup
+
+I just (2025-10-30-18:16:13 PDT) checked https://github.com/tcltk/tk and
+found the latest version of tkUnixRFont.c has a check for
+`if (!set || set->nfont == 0)`, so there's no need for me to submit a patch.
+I'm not sure that will work as well as my `Tcl_Panic` call at getting across
+to the user the need to install a font&mdash;it may just silently refuse to
+add the Label, Button, or whatever&mdash; but I'll consider it out of my
+hands now.
