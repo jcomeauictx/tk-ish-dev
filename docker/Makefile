@@ -69,7 +69,7 @@ ssh login: $(CONTAINERS)/$(IMAGE)
 	 -oKexAlgorithms=+diffie-hellman-group1-sha1 \
 	 -oHostKeyAlgorithms=+ssh-rsa \
 	 -oPubKeyAcceptedKeyTypes=+ssh-rsa \
-	 $(IUSER)@localhost
+	 $(IUSER)@127.0.0.1
 env:
 ifeq ($(SHOWENV),)
 	$(MAKE) SHOWENV=1 $@
