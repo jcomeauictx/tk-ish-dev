@@ -42,7 +42,7 @@ $(IMAGES)/$(TAG): Dockerfile | $(IMAGES)/README
 	 --tag $(TAG) .
 $(IMAGES)/README: ../../dockerfs/dockerfs.py $(IMAGES)
 	$(MAKE) $(<:.py=.pylint)
-	$(PYTHON) $< $(MOUNTPREFIX)
+	$(MAKE) -c $< install
 $(CONTAINERS)/$(IMAGE): $(IMAGES)/$(TAG) | $(CONTAINERS)/README
 	docker run \
 	 --name $(IMAGE) \
@@ -57,7 +57,7 @@ $(CONTAINERS)/$(IMAGE): $(IMAGES)/$(TAG) | $(CONTAINERS)/README
 	# docker run [OPTIONS] IMAGE [COMMAND] [ARG]
 $(CONTAINERS)/README: ../../dockerfs/dockerfs.py $(CONTAINERS)
 	$(MAKE) $(<:.py=.pylint)
-	$(PYTHON) $< $(MOUNTPREFIX)
+	$(MAKE) -c $< install
 $(IMAGES) $(CONTAINERS): | $(HOME)
 	mkdir -p $@
 %.pylint: %.py
@@ -82,3 +82,6 @@ rerun:
 	docker stop alpine-ish-dev
 	docker rm alpine-ish-dev
 	$(MAKE) bind-run
+rootlogin:
+	# login as root to running container to poke around
+	sudo docker exec -it alpine-ish-dev /bin/bash
