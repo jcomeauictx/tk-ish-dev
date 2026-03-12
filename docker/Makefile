@@ -79,9 +79,9 @@ endif
 backup download:
 	cd ../../.. && $(MAKE) $@
 rerun:
-	docker stop alpine-ish-dev
-	docker rm alpine-ish-dev
-	$(MAKE) bind-run
+	-docker stop alpine-ish-dev
+	-docker rm alpine-ish-dev
+	$(MAKE) $(CONTAINERS)/$(IMAGE)
 rootlogin:
 	# login as root to running container to poke around
 	sudo docker exec -it alpine-ish-dev /bin/bash
