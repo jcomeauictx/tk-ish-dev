@@ -81,7 +81,7 @@ backup download:
 rerun:
 	-docker stop alpine-ish-dev
 	-docker rm alpine-ish-dev
-	$(MAKE) $(CONTAINERS)/$(IMAGE)
+	$(MAKE) login
 rootlogin:
 	# login as root to running container to poke around
 	sudo docker exec -it alpine-ish-dev /bin/bash
