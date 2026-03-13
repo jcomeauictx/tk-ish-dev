@@ -42,7 +42,7 @@ $(IMAGES)/$(TAG): Dockerfile | $(IMAGES)/README
 	 --tag $(TAG) .
 $(IMAGES)/README: ../../dockerfs/dockerfs.py $(IMAGES)
 	$(MAKE) $(<:.py=.pylint)
-	$(MAKE) -c $< install
+	$(MAKE) -C $(<D) install
 $(CONTAINERS)/$(IMAGE): $(IMAGES)/$(TAG) | $(CONTAINERS)/README
 	docker run \
 	 --name $(IMAGE) \
