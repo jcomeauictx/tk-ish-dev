@@ -62,8 +62,13 @@ $(IMAGES) $(CONTAINERS): | $(HOME)
 	mkdir -p $@
 %.pylint: %.py
 	$(PYLINT) $<
+$(HOME)/.ssh/id_alpine:
+	ssh-keygen -t rsa -b 2048 -f $@
 ssh login: $(CONTAINERS)/$(IMAGE)
+	# if ~/.ssh/id_rsa is actually an ECDSA format, create id_alpine
 	ssh $(VERBOSE) -p $(SSHPORT) -t -Y \
+	 -i ~/.ssh/id_alpine \
+	 -i ~/.ssh/id_rsa \
 	 -oStrictHostKeyChecking=no \
 	 -oUserKnownHostsFile=/dev/null \
 	 -oKexAlgorithms=+diffie-hellman-group1-sha1 \
