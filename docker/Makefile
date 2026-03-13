@@ -64,7 +64,7 @@ $(IMAGES) $(CONTAINERS): | $(HOME)
 	$(PYLINT) $<
 $(HOME)/.ssh/id_alpine:
 	ssh-keygen -t rsa -b 2048 -f $@
-ssh login: $(CONTAINERS)/$(IMAGE)
+ssh login: $(CONTAINERS)/$(IMAGE) $(HOME)/.ssh/authorized_keys
 	# if ~/.ssh/id_rsa is actually an ECDSA format, create id_alpine
 	ssh $(VERBOSE) -p $(SSHPORT) -t -Y \
 	 -i ~/.ssh/id_alpine \
@@ -75,6 +75,12 @@ ssh login: $(CONTAINERS)/$(IMAGE)
 	 -oHostKeyAlgorithms=+ssh-rsa \
 	 -oPubKeyAcceptedKeyTypes=+ssh-rsa \
 	 $(IUSER)@127.0.0.1
+$(HOME)/.ssh/authorized_keys: $(HOME)/.ssh/id_alpine .FORCE
+	if [ -z "$$(grep $$(cat $<.pub | tr ' ' '.') $@)" ]; then \
+	 cat $<.pub >> $@; \
+	else \
+	 echo "$< is already in $@" >&2; \
+	fi
 env:
 ifeq ($(SHOWENV),)
 	$(MAKE) SHOWENV=1 $@
@@ -90,3 +96,4 @@ rerun:
 rootlogin:
 	# login as root to running container to poke around
 	sudo docker exec -it alpine-ish-dev /bin/bash
+.FORCE:
