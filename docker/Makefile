@@ -18,9 +18,10 @@ VERBOSE ?=  # -vvv or left blank
 SRC=rentacoder
 GFG := .gitconfig
 rstrip = $(shell echo $1 | sed -e 's%/$$%%')
+tilde = $(shell echo $1 | sed 's%^$(HOME)%$(IHOME)%')
 # conditional in case we merge with parent directory
 ifeq ($(notdir $(PWD)),docker)
-PROJECTDIR := $(call rstrip, $(dir $(PWD)))
+PROJECTDIR := $(call tilde, $(call rstrip, $(dir $(PWD))))
 else
 PROJECTDIR := $(PWD)
 endif
