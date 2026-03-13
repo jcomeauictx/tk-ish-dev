@@ -17,8 +17,8 @@ DRYRUN ?= --dry-run
 VERBOSE ?=  # -vvv or left blank
 SRC=rentacoder
 GFG := .gitconfig
-# conditional in case we merge with parent directory
 rstrip = $(shell echo $1 | sed -e 's%/$$%%')
+# conditional in case we merge with parent directory
 ifeq ($(notdir $(PWD)),docker)
 PROJECTDIR := $(call rstrip, $(dir $(PWD)))
 else
@@ -81,6 +81,7 @@ $(HOME)/.ssh/authorized_keys: $(HOME)/.ssh/id_alpine .FORCE
 	else \
 	 echo "$< is already in $@" >&2; \
 	fi
+	chmod 0600 $@
 env:
 ifeq ($(SHOWENV),)
 	$(MAKE) SHOWENV=1 $@

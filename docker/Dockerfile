@@ -14,7 +14,7 @@ RUN mv $CONFIG $CONFIG.orig && \
  sed -e 's/.*Port 22$/Port 3022/' \
   -e 's/^X11Forwarding no$/X11Forwarding yes/' \
  $CONFIG.orig > $CONFIG
-# running sshd in foreground, but a
+# running sshd in foreground, make host keys beforehand
 RUN ssh-keygen -A
 # allow ssh login
 # (can't use long options, this is busybox adduser)
@@ -27,6 +27,7 @@ RUN adduser -D -s /bin/ash -g "" $IUSER && \
 RUN usermod -p '*' $IUSER
 #RUN echo $IUSER:'*' | chpasswd -e  # -e means "already encrypted"
 RUN mkdir -m 700 -p /home/$IUSER/.ssh
+RUN mkdir -m 700 -p /home/$IUSER/src
 RUN echo cd $PROJECTDIR >> /home/$IUSER/.profile
 RUN chown -R $IUSER:$IUSER /home/$IUSER
 # allow $IUSER to run abuild -r
