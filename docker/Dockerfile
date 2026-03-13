@@ -14,8 +14,8 @@ RUN mv $CONFIG $CONFIG.orig && \
  sed -e 's/.*Port 22$/Port 3022/' \
   -e 's/^X11Forwarding no$/X11Forwarding yes/' \
  $CONFIG.orig > $CONFIG
-# running sshd in foreground, but running these now to create host keys
-RUN rc-update add sshd && rc-status && rc-service sshd restart || true
+# running sshd in foreground, but a
+RUN ssh-keygen -A
 # allow ssh login
 # (can't use long options, this is busybox adduser)
 RUN echo creating user-level account for $IUSER
