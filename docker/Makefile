@@ -51,7 +51,7 @@ $(CONTAINERS)/$(IMAGE): $(IMAGES)/$(TAG) | $(CONTAINERS)/README
 	 --mount type=bind,src=$(HOME)/$(SRC),target=$(IHOME)/$(SRC) \
 	 --mount type=bind,src=$(HOME)/.ssh,target=$(IHOME)/.ssh \
 	 --mount type=bind,src=$(HOME)/$(GFG),target=$(IHOME)/$(GFG) \
-	 --mount type=bind,src=/usr/src,target=/usr/src \
+	 --mount type=bind,src=$(HOME)/src,target=$(IHOME)/src \
 	 --entrypoint /usr/sbin/sshd $(TAG) -D -E /var/log/sshd.log
 	# -D means run sshd in foreground
 	# docker run [OPTIONS] IMAGE [COMMAND] [ARG]
