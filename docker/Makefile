@@ -58,7 +58,7 @@ $(CONTAINERS)/$(IMAGE): $(IMAGES)/$(TAG) | $(CONTAINERS)/README
 	# docker run [OPTIONS] IMAGE [COMMAND] [ARG]
 $(CONTAINERS)/README: ../../dockerfs/dockerfs.py $(CONTAINERS)
 	$(MAKE) $(<:.py=.pylint)
-	$(MAKE) -c $< install
+	$(MAKE) -C $< install
 $(IMAGES) $(CONTAINERS): | $(HOME)
 	mkdir -p $@
 %.pylint: %.py
