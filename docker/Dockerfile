@@ -7,7 +7,7 @@ RUN mkdir -p /run/openrc && \
  apk add make git abuild openssh openrc sudo \
  python3 xauth xeyes python3-tkinter gdb strace \
  shadow bash vim less wget firefox-esr unifont \
- rsync
+ rsync gettext
 ENV CONFIG=/etc/ssh/sshd_config
 ARG IUSER  # passed in with `--build-arg INAME=$(INAME)` in Makefile
 ARG PROJECTDIR  # ditto
