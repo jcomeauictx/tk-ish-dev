@@ -104,6 +104,7 @@ $(INSTALLED)/docker: | $(INSTALLED)
 	sudo apt install docker.io
 	sudo usermod -a -G docker $(USER)
 	echo You must now logout and login again >&2
+	touch $@
 $(INSTALLED):
 	mkdir --parents $@
 .FORCE:
