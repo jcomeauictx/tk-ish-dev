@@ -7,6 +7,7 @@ SSHPORT ?= 3022
 IUSER := ishuser
 IHOME := /home/$(IUSER)
 IMAGE := alpine-ish-dev
+INSTALLED := .installed
 TAG := $(IMAGE)\:latest
 MOUNTPREFIX := $(HOME)/mnt/docker
 CONTAINERS := $(MOUNTPREFIX)-containers
@@ -25,13 +26,14 @@ PROJECTDIR := $(call tilde, $(call rstrip, $(dir $(PWD))))
 else
 PROJECTDIR := $(PWD)
 endif
+REQUIRED := $(INSTALLED)/docker
 ifeq ($(SHOWENV),)
 export IUSER PROJECTDIR
 else
 export
 endif
 default: login
-$(IMAGES)/$(TAG): Dockerfile | $(IMAGES)/README
+$(IMAGES)/$(TAG): Dockerfile | $(IMAGES)/README $(INSTALLED)/docker
 	-docker stop $(IMAGE)
 	-docker rm $(IMAGE)
 	-docker rmi $(TAG)
@@ -65,7 +67,7 @@ $(IMAGES) $(CONTAINERS): | $(HOME)
 	$(PYLINT) $<
 $(HOME)/.ssh/id_alpine:
 	ssh-keygen -t rsa -b 2048 -f $@
-ssh login: $(CONTAINERS)/$(IMAGE) $(HOME)/.ssh/authorized_keys
+ssh login: $(CONTAINERS)/$(IMAGE) $(HOME)/.ssh/authorized_keys $(REQUIRED)
 	# if ~/.ssh/id_rsa is actually an ECDSA format, create id_alpine
 	ssh $(VERBOSE) -p $(SSHPORT) -t -Y \
 	 -i ~/.ssh/id_alpine \
@@ -98,4 +100,10 @@ rerun:
 rootlogin:
 	# login as root to running container to poke around
 	sudo docker exec -it alpine-ish-dev /bin/bash
+$(INSTALLED)/docker: | $(INSTALLED)
+	sudo apt install docker.io
+	sudo usermod -a -G docker $(USER)
+	echo You must now logout and login again >&2
+$(INSTALLED):
+	mkdir --parents $@
 .FORCE:
